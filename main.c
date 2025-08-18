@@ -73,6 +73,10 @@ static const unsigned char button_keys[NUM_BUTTONS]={
 	BUTTON_FIRE_KEY,
 };
 
+// Local global variable(s)
+static int g_init_keys=0;
+
+
 //--------------------------------------------------------------------+
 // MACRO CONSTANT TYPEDEF PROTYPES
 //--------------------------------------------------------------------+
@@ -107,7 +111,10 @@ int main(void)
 //--------------------------------------------------------------------+
 
 // Invoked when device is mounted
-void tud_mount_cb(void){ }
+void tud_mount_cb(void){
+	// Send initialization keys for 1 seconds 
+	g_init_keys=100;
+}
 
 // Invoked when device is unmounted
 void tud_umount_cb(void){ }
@@ -138,12 +145,8 @@ void hid_task(void)
 	if ( board_millis() - start_ms < interval_ms) return; // not enough time
 	start_ms += interval_ms;
 
-	bool button_0 = 0;//check_button(0);
-	bool button_1 = 0;//check_button(1);
-	bool button_2 = 0;//check_button(2);
-
 	// Remote wakeup
-	if ( tud_suspended() && (button_0 || button_1) )
+	if ( tud_suspended() && (false) )
 	{
 		// Wake up host if we are in suspend mode
 		// and REMOTE_WAKEUP feature is enabled by host
@@ -153,9 +156,18 @@ void hid_task(void)
 	{
 		// skip if hid is not ready yet
 		if ( !tud_hid_ready() ) return;
-
+		
 		// use to avoid send multiple consecutive zero report for keyboard
 		static bool has_keyboard_key = false;
+
+		// Send "MACGP" for 1 second after connection
+		if (0<g_init_keys) {
+			g_init_keys--;
+			uint8_t keycode[6] = { HID_KEY_M, HID_KEY_A, HID_KEY_C, HID_KEY_G, HID_KEY_P,0 };
+			tud_hid_keyboard_report(0 /*REPORT_ID_KEYBOARD*/, 0, keycode);
+			has_keyboard_key = true;
+			return;
+		}
 
 		for(int i=0;i<=NUM_BUTTONS;i++){
 			if (NUM_BUTTONS==i) {
