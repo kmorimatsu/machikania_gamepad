@@ -169,19 +169,27 @@ void hid_task(void)
 			return;
 		}
 
-		for(int i=0;i<=NUM_BUTTONS;i++){
-			if (NUM_BUTTONS==i) {
-				// send empty key report if previously has key pressed
-				if (has_keyboard_key) tud_hid_keyboard_report(0 /*REPORT_ID_KEYBOARD*/, 0, NULL);
-				has_keyboard_key = false;
-			} else if (!gpio_get(button_ports[i])) {
-				uint8_t keycode[6] = { 0,0,0,0,0,0 };
-				keycode[0] = button_keys[i];
-				tud_hid_keyboard_report(0 /*REPORT_ID_KEYBOARD*/, 0, keycode);
-				has_keyboard_key = true;
-				break;
+		// Check the button input
+		int num_send=0;
+		uint8_t keycode[6] = { 0,0,0,0,0,0 };
+		for(int i=0;i<NUM_BUTTONS;i++){
+			if (!gpio_get(button_ports[i])) {
+				keycode[num_send++]=button_keys[i];
+				if (6<=num_send) break;
 			}
 		}
+		// Send key(s) if required
+		if (0<num_send) {
+			// Send key(s)
+			tud_hid_keyboard_report(0 /*REPORT_ID_KEYBOARD*/, 0, keycode);
+			has_keyboard_key = true;
+		} else {
+			// send empty key report if previously has key pressed
+			if (has_keyboard_key) tud_hid_keyboard_report(0 /*REPORT_ID_KEYBOARD*/, 0, NULL);
+			has_keyboard_key = false;
+		
+		}
+		
 	}
 }
 
