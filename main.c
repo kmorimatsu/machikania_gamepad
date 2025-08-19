@@ -37,6 +37,8 @@
 
 #include "hardware/gpio.h"
 
+#include "audio.h"
+
 /*
 	Configuration
 */
@@ -92,6 +94,7 @@ int main(void)
 		gpio_set_dir(button_ports[i],GPIO_IN);
 		gpio_pull_up(button_ports[i]);
 	}
+	init_audio();
 
 	board_init();
 	tusb_init();
@@ -102,7 +105,7 @@ int main(void)
 
 		hid_task();
 		
-		sleep_ms(10);
+		sleep_ms(1);
 	}
 }
 
@@ -205,5 +208,17 @@ uint16_t tud_hid_get_report_cb(uint8_t instance, uint8_t report_id, hid_report_t
 
 // Invoked when received SET_REPORT control request or
 // received data on OUT endpoint ( Report ID = 0, Type = 0 )
-void tud_hid_set_report_cb(uint8_t instance, uint8_t report_id, hid_report_type_t report_type, uint8_t const* buffer, uint16_t bufsize) { }
-
+void tud_hid_set_report_cb(uint8_t instance, uint8_t report_id, hid_report_type_t report_type, uint8_t const* buffer, uint16_t bufsize) {
+	if (HID_REPORT_TYPE_OUTPUT==report_type) {
+		switch(bufsize){
+			case 2:
+				// Set audio
+				set_sound((buffer[1]<<8) | buffer[0]);
+				break;
+			case 1:
+				// Set LEDs. Do nothing
+			default:
+				break;
+		}
+	}
+}
