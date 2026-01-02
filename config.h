@@ -1,0 +1,27 @@
+/*
+	Button configuration
+*/
+
+#define BUTTON_UP_PORT    12
+#define BUTTON_LEFT_PORT  13
+#define BUTTON_RIGHT_PORT 14
+#define BUTTON_DOWN_PORT  15
+#define BUTTON_START_PORT 1
+#define BUTTON_FIRE_PORT  5
+
+#define BUTTON_UP_KEY    HID_KEY_ARROW_UP
+#define BUTTON_LEFT_KEY  HID_KEY_ARROW_LEFT
+#define BUTTON_RIGHT_KEY HID_KEY_ARROW_RIGHT
+#define BUTTON_DOWN_KEY  HID_KEY_ARROW_DOWN
+#define BUTTON_START_KEY HID_KEY_F4
+#define BUTTON_FIRE_KEY  HID_KEY_F1
+
+#define NUM_BUTTONS 6
+
+
+/*
+	Audio configuration
+*/
+
+#define SOUND_PWM_MUL 1
+#define AUDIO_PORT 28
