@@ -2,12 +2,12 @@
 	Button configuration
 */
 
-#define BUTTON_UP_PORT    12
+#define BUTTON_UP_PORT    10
 #define BUTTON_LEFT_PORT  13
-#define BUTTON_RIGHT_PORT 14
-#define BUTTON_DOWN_PORT  15
-#define BUTTON_START_PORT 1
-#define BUTTON_FIRE_PORT  5
+#define BUTTON_RIGHT_PORT 11
+#define BUTTON_DOWN_PORT  12
+#define BUTTON_START_PORT 14
+#define BUTTON_FIRE_PORT  9
 
 #define BUTTON_UP_KEY    HID_KEY_ARROW_UP
 #define BUTTON_LEFT_KEY  HID_KEY_ARROW_LEFT
@@ -24,4 +24,4 @@
 */
 
 #define SOUND_PWM_MUL 1
-#define AUDIO_PORT 28
+#define AUDIO_PORT 8

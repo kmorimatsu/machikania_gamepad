@@ -145,8 +145,8 @@ void hid_task(void)
 		// use to avoid send multiple consecutive zero report for keyboard
 		static bool has_keyboard_key = false;
 
-		// Send "MACGP" for 1 second after connection
-		if (0<g_init_keys) {
+		// Send "MACGP" for 1 second after connection (this feature is disabled)
+		if (0<g_init_keys && false) {
 			g_init_keys--;
 			uint8_t keycode[6] = { HID_KEY_M, HID_KEY_A, HID_KEY_C, HID_KEY_G, HID_KEY_P,0 };
 			tud_hid_keyboard_report(0 /*REPORT_ID_KEYBOARD*/, 0, keycode);
