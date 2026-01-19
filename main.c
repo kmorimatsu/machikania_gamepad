@@ -149,7 +149,7 @@ void hid_task(void)
 		if (0<g_init_keys && false) {
 			g_init_keys--;
 			uint8_t keycode[6] = { HID_KEY_M, HID_KEY_A, HID_KEY_C, HID_KEY_G, HID_KEY_P,0 };
-			tud_hid_keyboard_report(0 /*REPORT_ID_KEYBOARD*/, 0, keycode);
+			tud_hid_keyboard_report(REPORT_ID_KEYBOARD, 0, keycode);
 			has_keyboard_key = true;
 			return;
 		}
@@ -166,11 +166,11 @@ void hid_task(void)
 		// Send key(s) if required
 		if (0<num_send) {
 			// Send key(s)
-			tud_hid_keyboard_report(0 /*REPORT_ID_KEYBOARD*/, 0, keycode);
+			tud_hid_keyboard_report(REPORT_ID_KEYBOARD, 0, keycode);
 			has_keyboard_key = true;
 		} else {
 			// send empty key report if previously has key pressed
-			if (has_keyboard_key) tud_hid_keyboard_report(0 /*REPORT_ID_KEYBOARD*/, 0, NULL);
+			if (has_keyboard_key) tud_hid_keyboard_report(REPORT_ID_KEYBOARD, 0, NULL);
 			has_keyboard_key = false;
 		
 		}
