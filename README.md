@@ -11,7 +11,7 @@ cmake and make. The pico-sdk (ver 2.1.1 is confirmed for building) with submodul
 Use a USB-OTG cable (with power input) for the connection to MachiKania.
 
 ## Circuit
-
+![schematic.png](shematic.png)
 Connect six button switches to the defined ports of RP2040:
 ```console
 #define BUTTON_UP_PORT    10

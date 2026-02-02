@@ -99,6 +99,8 @@ int main(void)
 void tud_mount_cb(void){
 	// Send initialization keys for 1 seconds 
 	g_init_keys=100;
+	// Stop sound
+	set_sound(0xffff);
 }
 
 // Invoked when device is unmounted
